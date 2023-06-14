@@ -13,12 +13,12 @@ async def check_task():
         try:
             print(datetime.datetime.now(), "check")
             tweet = await check_notify()
+
+            if tweet:
+                await send_notify(tweet)
+                LAST_NOTIFY_TIME.time = tweet.post_time
         except Exception as e:
             print(datetime.datetime.now(), e)
-
-        if tweet:
-            await send_notify(tweet)
-            LAST_NOTIFY_TIME.time = tweet.post_time
 
         await asyncio.sleep(60)
 
@@ -29,7 +29,7 @@ async def main():
     coro = [check_task(), bot.start(), loop.run_in_executor(
         None, functools.partial(uvicorn.run, app, host="0.0.0.0", port=3000))]
 
-    await asyncio.gather(*coro)
+    await asyncio.gather(*coro, return_exceptions=True)
 
 
 if __name__ == "__main__":
