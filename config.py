@@ -1,9 +1,12 @@
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHANNEL_IDS = os.getenv("CHANNEL_IDS")
 
 assert BOT_TOKEN, "BOT_TOKEN not found in environment variables"
+assert CHANNEL_IDS, "CHANNEL_IDS not found in environment variables"
 
+CHANNEL_IDS = [channel_id for channel_id in CHANNEL_IDS.split(",")]
 
 LOC_KW_DICT = {"干燥平原：萨兰火山口": "Saraan",
                "哈维泽：渎神旷野": "Desecration",

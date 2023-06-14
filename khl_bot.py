@@ -3,8 +3,8 @@ import datetime
 from khl import Bot, Message
 from khl.card import Card, CardMessage, Element, Module, Types
 
-from config import BOT_TOKEN
-from twitter_playwright import TweetModel, BEIJING_TIMEZONE
+from config import BOT_TOKEN, CHANNEL_IDS
+from twitter_playwright import TweetModel
 
 bot = Bot(token=BOT_TOKEN)
 
@@ -51,8 +51,6 @@ async def send_notify(tweet: TweetModel):
 
     card._modules = [head, divider, *sections, divider, bottom]
 
-    channel_ids = [3989228272446564, 5961662531877696]
-
-    for channel_id in channel_ids:
+    for channel_id in CHANNEL_IDS:
         channel = await bot.fetch_public_channel(channel_id)
         await channel.send(CardMessage(card))
