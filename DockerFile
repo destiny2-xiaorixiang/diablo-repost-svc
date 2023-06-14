@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/playwright/python:v1.34.0-jammy
+
+WORKDIR /code
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+RUN apt update && apt install -y vim
+
+RUN playwright install firefox
+
+COPY *.py ./
+
+EXPOSE 3000
+
+CMD ["python", "run.py"]
