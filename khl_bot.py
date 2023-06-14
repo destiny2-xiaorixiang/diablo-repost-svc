@@ -22,7 +22,7 @@ async def send_notify(tweet: TweetModel):
 
     head = Module.Section(
         Element.Text(
-            "(met)1503437691(met) **世界首领** 已出现！(emj)爱心(emj)[8450115002258665/65a17e869400f9028028]"
+            "(met)1503437691(met) **世界首领** 已出现！"
         )
     )
 
@@ -45,7 +45,7 @@ async def send_notify(tweet: TweetModel):
 
     bottom = Module.Context(
         Element.Text(
-            "(emj)比心(emj)[5129445764335593/ATRIWyi19Z01e01e] 小日向 | 暗黑4世界首领Bot"
+            "小日向 | 暗黑4世界首领Bot"
         )
     )
 
