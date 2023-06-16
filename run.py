@@ -19,6 +19,7 @@ async def check_task():
             if tweet:
                 await send_notify(tweet)
                 LAST_NOTIFY_TIME.time = tweet.post_time
+                logger.success(f"send notify")
         except Exception as e:
             logger.exception(e)
 
