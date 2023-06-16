@@ -1,6 +1,7 @@
 import asyncio
 import re
 import datetime
+from loguru import logger
 from pydantic import BaseModel
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -79,7 +80,7 @@ async def fetch_tweets(browser: Browser):
         imgs: list[Tag] = [img for img in div.find_all(
             'img') if img.attrs.get('alt')]
         text = "\n".join([span.text for span in spans])
-        if 'spawn' not in text:
+        if ('spawn' not in text and 'minutes' not in text) or not imgs:
             continue
 
         data = {}
@@ -115,14 +116,15 @@ async def check_notify():
     async with async_playwright() as p:
         async with await p.firefox.launch() as browser:
             tweets = await fetch_tweets(browser)
-            print("tweets len=", len(tweets))
+
+            logger.info(f"fetch tweets, count={len(tweets)}")
+
             if not tweets:
                 return
 
             tweet = tweets[0]
             local_time = datetime.datetime.now(BEIJING_TIMEZONE)
 
-            # return tweet
             # 如果是程序第一次运行,且最新的提醒是5分钟内的,则发送
             if LAST_NOTIFY_TIME.time is None and local_time - tweet.post_time < datetime.timedelta(minutes=20):
                 return tweet
